@@ -1,0 +1,984 @@
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Implementation Consultancy | Contact & ROI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Outfit (Display) and Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link id="heading-font-link" href="https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap" rel="stylesheet">
+  <link id="body-font-link" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['var(--font-heading-name)', 'sans-serif'],
+            body: ['var(--font-body-name)', 'sans-serif'],
+          },
+          spacing: {
+            base: 'var(--space-base)',
+          },
+          borderRadius: {
+            small: 'var(--radius-small)',
+            large: 'var(--radius-large)',
+          },
+          boxShadow: {
+            custom: 'var(--shadow-custom)',
+            'custom-hover': 'var(--shadow-custom-hover)',
+          },
+          colors: {
+            primary: {
+              50: 'rgb(var(--color-primary-50) / <alpha-value>)',
+              100: 'rgb(var(--color-primary-100) / <alpha-value>)',
+              200: 'rgb(var(--color-primary-200) / <alpha-value>)',
+              300: 'rgb(var(--color-primary-300) / <alpha-value>)',
+              400: 'rgb(var(--color-primary-400) / <alpha-value>)',
+              500: 'rgb(var(--color-primary-500) / <alpha-value>)',
+              600: 'rgb(var(--color-primary-600) / <alpha-value>)',
+              700: 'rgb(var(--color-primary-700) / <alpha-value>)',
+              800: 'rgb(var(--color-primary-800) / <alpha-value>)',
+              900: 'rgb(var(--color-primary-900) / <alpha-value>)',
+            },
+            neutral: {
+              50: 'rgb(var(--color-neutral-50) / <alpha-value>)',
+              100: 'rgb(var(--color-neutral-100) / <alpha-value>)',
+              200: 'rgb(var(--color-neutral-200) / <alpha-value>)',
+              300: 'rgb(var(--color-neutral-300) / <alpha-value>)',
+              400: 'rgb(var(--color-neutral-400) / <alpha-value>)',
+              500: 'rgb(var(--color-neutral-500) / <alpha-value>)',
+              600: 'rgb(var(--color-neutral-600) / <alpha-value>)',
+              700: 'rgb(var(--color-neutral-700) / <alpha-value>)',
+              800: 'rgb(var(--color-neutral-800) / <alpha-value>)',
+              900: 'rgb(var(--color-neutral-900) / <alpha-value>)',
+            },
+            background: {
+              50: 'rgb(var(--color-background-50) / <alpha-value>)',
+              100: 'rgb(var(--color-background-100) / <alpha-value>)',
+              200: 'rgb(var(--color-background-200) / <alpha-value>)',
+              300: 'rgb(var(--color-background-300) / <alpha-value>)',
+              400: 'rgb(var(--color-background-400) / <alpha-value>)',
+              500: 'rgb(var(--color-background-500) / <alpha-value>)',
+              600: 'rgb(var(--color-background-600) / <alpha-value>)',
+              700: 'rgb(var(--color-background-700) / <alpha-value>)',
+              800: 'rgb(var(--color-background-800) / <alpha-value>)',
+              900: 'rgb(var(--color-background-900) / <alpha-value>)',
+            },
+            error: {
+              500: '#C41E1E',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      /* Typography */
+      --font-heading-name: 'Outfit';
+      --font-body-name: 'Inter';
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --letter-spacing-heading: -0.03em;
+      --letter-spacing-body: 0px;
+      
+      /* Spacing */
+      --space-base: 1rem;
+      
+      /* Borders - STRICTLY 0px for industrial aesthetic */
+      --radius-small: 0px;
+      --radius-large: 0px;
+      --border-width: 1px;
+      
+      /* Shadows */
+      --shadow-color: 10 10 10;
+      --shadow-offset-x: 4px;
+      --shadow-offset-y: 4px;
+      --shadow-blur: 0px;
+      --shadow-spread: 0px;
+      --shadow-opacity: 1;
+      --shadow-custom: 4px 4px 0px rgb(var(--shadow-color));
+      --shadow-custom-hover: 8px 8px 0px rgb(var(--shadow-color));
+
+      /* Colors */
+      --color-primary-50: 255 240 235;
+      --color-primary-100: 255 220 205;
+      --color-primary-200: 255 185 155;
+      --color-primary-300: 255 140 95;
+      --color-primary-400: 255 100 45;
+      --color-primary-500: 255 72 0; /* #FF4800 */
+      --color-primary-600: 224 64 0;  /* #E04000 */
+      --color-primary-700: 180 40 0;
+      --color-primary-800: 145 35 0;
+      --color-primary-900: 115 30 0;
+
+      --color-neutral-50: 245 245 245;
+      --color-neutral-100: 225 225 225;
+      --color-neutral-200: 200 200 200;
+      --color-neutral-300: 221 221 216; /* #DDDDD8 */
+      --color-neutral-400: 181 181 176; /* #B5B5B0 */
+      --color-neutral-500: 107 107 100; /* #6B6B64 */
+      --color-neutral-600: 80 80 80;
+      --color-neutral-700: 50 50 50;
+      --color-neutral-800: 30 30 30;
+      --color-neutral-900: 10 10 10; /* #0A0A0A */
+
+      --color-background-50: 255 255 255; /* #FFFFFF */
+      --color-background-100: 245 245 240; /* #F5F5F0 */
+      --color-background-200: 234 234 229; /* #EAEAE5 */
+      --color-background-300: 220 220 215;
+      --color-background-400: 200 200 195;
+      --color-background-500: 180 180 175;
+      --color-background-600: 150 150 145;
+      --color-background-700: 120 120 115;
+      --color-background-800: 90 90 85;
+      --color-background-900: 60 60 55;
+    }
+
+    /* Custom Utilities */
+    .tracking-tightest { letter-spacing: var(--letter-spacing-heading); }
+    .tracking-form-label { letter-spacing: 0.05em; }
+    .max-w-prose-custom { max-width: 65ch; }
+    
+    /* Form Inputs */
+    .form-input {
+      width: 100%;
+      height: 48px;
+      background-color: rgb(var(--color-background-200));
+      border: 1px solid rgb(var(--color-neutral-300));
+      border-radius: 0;
+      padding: 0 1rem;
+      color: rgb(var(--color-neutral-900));
+      font-family: var(--font-body);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: rgb(var(--color-neutral-900));
+      box-shadow: 0 0 0 1px rgb(var(--color-neutral-900));
+    }
+    .form-input.error {
+      border-color: #C41E1E;
+    }
+    .form-input.error:focus {
+      box-shadow: 0 0 0 1px #C41E1E;
+    }
+    textarea.form-input {
+      height: auto;
+      min-height: 120px;
+      padding-top: 0.75rem;
+      resize: vertical;
+    }
+    select.form-input {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230A0A0A' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1.25rem;
+      padding-right: 2.5rem;
+    }
+
+    /* Range Slider Styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 24px;
+      width: 24px;
+      border-radius: 0;
+      background: rgb(var(--color-primary-500));
+      cursor: pointer;
+      margin-top: -10px;
+      border: 2px solid rgb(var(--color-background-50));
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 4px;
+      cursor: pointer;
+      background: rgb(var(--color-neutral-300));
+      border-radius: 0;
+    }
+    input[type=range]:focus {
+      outline: none;
+    }
+    input[type=range]:focus::-webkit-slider-thumb {
+      box-shadow: 0 0 0 2px rgb(var(--color-background-50)), 0 0 0 4px rgb(var(--color-primary-500));
+    }
+
+    /* Scroll Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s cubic-bezier(0, 0, 0.2, 1), transform 0.8s cubic-bezier(0, 0, 0.2, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .delay-100 { transition-delay: 80ms; }
+    .delay-200 { transition-delay: 160ms; }
+
+    /* View Transition */
+    .page-view {
+      display: none;
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+    .page-view.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Spinner */
+    .spinner {
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top: 2px solid #fff;
+      width: 16px;
+      height: 16px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </script>
+</head>
+<body class="font-body bg-background-50 text-neutral-900 antialiased selection:bg-primary-500 selection:text-background-50" style="height: auto; min-height: 100%;">
+
+  <!-- Skip to content -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary-500 focus:text-background-50 focus:font-bold focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2">
+    Skip to main content
+  </a>
+
+  <!-- Shared Sticky Header -->
+  <header id="site-header" class="sticky top-0 z-40 w-full transition-all duration-200 bg-background-50/90 backdrop-blur-md border-b border-neutral-200">
+    <div class="max-w-[1280px] mx-auto px-4 md:px-8 lg:px-16 h-20 flex items-center justify-between">
+      <!-- Logo -->
+      <button onclick="navigateTo('contact')" class="font-heading font-bold text-2xl tracking-tightest text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2">
+        AI<span class="text-primary-500">.</span>IT
+      </button>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="#" class="text-sm font-medium text-neutral-900 hover:text-primary-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 px-1">Services</a>
+        <a href="#" class="text-sm font-medium text-neutral-900 hover:text-primary-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 px-1">Industries</a>
+        <button onclick="navigateTo('calculator')" class="text-sm font-medium text-primary-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 px-1">ROI Calculator</button>
+        <button onclick="navigateTo('contact')" class="text-sm font-medium text-neutral-900 hover:text-primary-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 px-1">Contact</button>
+      </nav>
+
+      <!-- CTA & Mobile Toggle -->
+      <div class="flex items-center gap-4">
+        <button onclick="navigateTo('contact')" class="hidden sm:inline-flex items-center justify-center bg-primary-500 text-background-50 px-6 py-2.5 text-sm font-bold uppercase tracking-wider hover:bg-primary-600 active:scale-[0.98] transition-all rounded-small focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2">
+          Book a Call
+        </button>
+        <button class="md:hidden p-2 text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500" aria-label="Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    
+    <!-- ========================================== -->
+    <!-- PAGE 1: CONTACT VIEW                       -->
+    <!-- ========================================== -->
+    <div id="view-contact" class="page-view active">
+      
+      <!-- Hero Section -->
+      <section class="pt-16 pb-12 md:pt-24 md:pb-16 px-4 md:px-8 lg:px-16 max-w-[1280px] mx-auto">
+        <div class="max-w-3xl reveal">
+          <h1 class="font-heading font-bold tracking-tightest text-neutral-900 leading-[1.05] text-[clamp(3rem,6vw,5rem)] mb-6 uppercase">
+            Let's Find Your Advantage.
+          </h1>
+          <p class="text-lg md:text-xl text-neutral-600 max-w-prose-custom leading-relaxed">
+            Book a free 30-minute audit. We'll identify your top automation opportunities and show you exactly what's possible.
+          </p>
+        </div>
+      </section>
+
+      <!-- Main Content: Form & Trust Signals -->
+      <section class="pb-24 px-4 md:px-8 lg:px-16 max-w-[1280px] mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
+          
+          <!-- Left: Contact Form -->
+          <div class="lg:col-span-7 reveal delay-100">
+            <form id="contact-form" class="space-y-6" novalidate>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Full Name -->
+                <div>
+                  <label for="fullName" class="block text-[11px] font-semibold uppercase tracking-form-label text-neutral-900 mb-2">Full Name</label>
+                  <input type="text" id="fullName" name="fullName" required aria-describedby="fullName-error" class="form-input">
+                  <p id="fullName-error" class="hidden text-error-500 text-xs mt-2 flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    This field is required.
+                  </p>
+                </div>
+                
+                <!-- Work Email -->
+                <div>
+                  <label for="email" class="block text-[11px] font-semibold uppercase tracking-form-label text-neutral-900 mb-2">Work Email</label>
+                  <input type="email" id="email" name="email" required aria-describedby="email-error" class="form-input">
+                  <p id="email-error" class="hidden text-error-500 text-xs mt-2 flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Please enter a valid work email.
+                  </p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Company Name -->
+                <div>
+                  <label for="company" class="block text-[11px] font-semibold uppercase tracking-form-label text-neutral-900 mb-2">Company Name</label>
+                  <input type="text" id="company" name="company" required aria-describedby="company-error" class="form-input">
+                  <p id="company-error" class="hidden text-error-500 text-xs mt-2 flex items-center gap-1">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    This field is required.
+                  </p>
+                </div>
+                
+                <!-- Phone -->
+                <div>
+                  <label for="phone" class="block text-[11px] font-semibold uppercase tracking-form-label text-neutral-900 mb-2">Phone <span class="text-neutral-500 normal-case tracking-normal font-normal">(optional)</span></label>
+                  <input type="tel" id="phone" name="phone" class="form-input">
+                </div>
+              </div>
+
+              <!-- Industry -->
+              <div>
+                <label for="industry" class="block text-[11px] font-semibold uppercase tracking-form-label text-neutral-900 mb-2">Industry</label>
+                <select id="industry" name="industry" required aria-describedby="industry-error" class="form-input">
+                  <option value="" disabled selected>Select your industry...</option>
+                  <option value="professional-services">Professional Services</option>
+                  <option value="healthcare-admin">Healthcare Admin</option>
+                  <option value="home-services">Home Services</option>
+                  <option value="ecommerce-retail">E-Commerce / Retail</option>
+                  <option value="logistics">Logistics & Supply</option>
+                  <option value="other">Other</option>
+                </select>
+                <p id="industry-error" class="hidden text-error-500 text-xs mt-2 flex items-center gap-1">
+                  <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  Please select an industry.
+                </p>
+              </div>
+
+              <!-- How did you hear about us -->
+              <div>
+                <label for="source" class="block text-[11px] font-semibold uppercase tracking-form-label text-neutral-900 mb-2">How did you hear about us?</label>
+                <select id="source" name="source" class="form-input">
+                  <option value="" disabled selected>Select an option...</option>
+                  <option value="search">Search Engine</option>
+                  <option value="linkedin">LinkedIn</option>
+                  <option value="referral">Referral</option>
+                  <option value="event">Event / Conference</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <!-- Message -->
+              <div>
+                <label for="message" class="block text-[11px] font-semibold uppercase tracking-form-label text-neutral-900 mb-2">Message</label>
+                <textarea id="message" name="message" required aria-describedby="message-error" placeholder="Tell us a bit about the workflows you want to automate..." class="form-input"></textarea>
+                <p id="message-error" class="hidden text-error-500 text-xs mt-2 flex items-center gap-1">
+                  <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  Please provide a brief message.
+                </p>
+              </div>
+
+              <!-- Submit -->
+              <div class="pt-4">
+                <button type="submit" id="submit-btn" class="w-full h-12 bg-primary-500 text-background-50 font-semibold uppercase tracking-form-label text-sm hover:bg-primary-600 active:translate-y-[1px] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:bg-neutral-400 disabled:cursor-not-allowed disabled:active:translate-y-0 flex items-center justify-center">
+                  <span id="submit-text">Request Your Audit</span>
+                  <span id="submit-spinner" class="spinner hidden"></span>
+                </button>
+                <p class="text-xs text-neutral-500 mt-3 text-center">We respond within one business day. Usually faster.</p>
+              </div>
+              
+              <!-- Success Message (Hidden by default) -->
+              <div id="success-message" class="hidden bg-background-100 border-l-4 border-primary-500 p-6 mt-6">
+                <h4 class="font-heading font-bold text-lg text-neutral-900 uppercase tracking-tightest mb-2">Request Received</h4>
+                <p class="text-neutral-700 text-sm">Thank you. We'll be in touch shortly to schedule your audit.</p>
+              </div>
+
+            </form>
+          </div>
+
+          <!-- Right: Trust Signals -->
+          <div class="lg:col-span-5 reveal delay-200 mt-12 lg:mt-0">
+            
+            <!-- What to Expect -->
+            <div class="bg-background-100 p-8 md:p-10 mb-8">
+              <h3 class="font-heading font-bold text-2xl text-neutral-900 uppercase tracking-tightest mb-6">What to Expect</h3>
+              <ul class="space-y-5">
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-primary-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                  <span class="text-neutral-700 leading-relaxed">A 30-minute conversation about your current workflows</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-primary-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                  <span class="text-neutral-700 leading-relaxed">Honest assessment of where AI fits — and where it doesn't</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-primary-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                  <span class="text-neutral-700 leading-relaxed">A prioritized list of your top 3 automation opportunities</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-primary-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                  <span class="text-neutral-700 leading-relaxed">No sales pressure. No obligations. Just clarity.</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Testimonial -->
+            <div class="border border-neutral-300 p-8 mb-8">
+              <div class="text-primary-500 font-heading font-bold text-5xl leading-none mb-2">"</div>
+              <p class="text-neutral-900 font-medium leading-relaxed mb-6">
+                The audit alone was worth thousands. They mapped out inefficiencies we didn't even realize we had, and the implementation paid for itself in month two.
+              </p>
+              <div>
+                <p class="font-bold text-neutral-900 uppercase tracking-widest text-xs">David Chen</p>
+                <p class="text-neutral-500 text-xs mt-1">Director of Ops, LogisticsPro</p>
+              </div>
+            </div>
+
+            <!-- Stats Cluster -->
+            <div class="grid grid-cols-2 gap-px bg-neutral-300 border border-neutral-300">
+              <div class="bg-background-50 p-6 text-center">
+                <div class="font-heading font-bold text-3xl text-primary-500 tracking-tightest mb-1">47%</div>
+                <p class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">Avg Time Saved</p>
+              </div>
+              <div class="bg-background-50 p-6 text-center">
+                <div class="font-heading font-bold text-3xl text-primary-500 tracking-tightest mb-1">3.2×</div>
+                <p class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">First-Year ROI</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- PAGE 2: ROI CALCULATOR VIEW                -->
+    <!-- ========================================== -->
+    <div id="view-calculator" class="page-view">
+      
+      <!-- Hero Section -->
+      <section class="pt-16 pb-12 md:pt-24 md:pb-16 px-4 md:px-8 lg:px-16 max-w-[1280px] mx-auto">
+        <div class="max-w-3xl reveal">
+          <h1 class="font-heading font-bold tracking-tightest text-neutral-900 leading-[1.05] text-[clamp(3rem,6vw,5rem)] mb-6 uppercase">
+            See What AI Could Save You.
+          </h1>
+          <p class="text-lg md:text-xl text-neutral-600 max-w-prose-custom leading-relaxed">
+            Plug in a few numbers from your operation. See the estimated impact in under 60 seconds.
+          </p>
+        </div>
+      </section>
+
+      <!-- Calculator Section -->
+      <section class="pb-24 px-4 md:px-8 lg:px-16 max-w-[1280px] mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+          
+          <!-- Left: Inputs -->
+          <div class="lg:col-span-7 space-y-8 reveal delay-100">
+            
+            <!-- Number of Employees -->
+            <div>
+              <label for="calc-employees" class="block text-[11px] font-semibold uppercase tracking-form-label text-neutral-900 mb-3">Number of Employees</label>
+              <div class="flex items-center h-12 w-full max-w-[240px] border border-neutral-300 bg-background-200 focus-within:border-neutral-900 focus-within:ring-1 focus-within:ring-neutral-900 transition-colors">
+                <button type="button" class="w-12 h-full flex items-center justify-center text-neutral-600 hover:text-neutral-900 hover:bg-neutral-300 transition-colors focus-visible:outline-none" onclick="updateNumberInput('calc-employees', -1, 1, 500)">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
+                </button>
+                <input type="number" id="calc-employees" value="25" min="1" max="500" class="flex-1 h-full bg-transparent text-center font-bold text-neutral-900 outline-none appearance-none m-0 p-0" oninput="calculateROI()">
+                <button type="button" class="w-12 h-full flex items-center justify-center text-neutral-600 hover:text-neutral-900 hover:bg-neutral-300 transition-colors focus-visible:outline-none" onclick="updateNumberInput('calc-employees', 1, 1, 500)">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Hours Per Week -->
+            <div>
+              <div class="flex justify-between items-end mb-3">
+                <label for="calc-hours" class="block text-[11px] font-semibold uppercase tracking-form-label text-neutral-900">Hours per week on repetitive tasks <span class="text-neutral-500 normal-case tracking-normal font-normal">(per person)</span></label>
+                <span id="calc-hours-display" class="font-bold text-primary-500">15 hrs</span>
+              </div>
+              <div class="h-12 flex items-center">
+                <input type="range" id="calc-hours" min="1" max="60" value="15" aria-valuemin="1" aria-valuemax="60" aria-valuenow="15" oninput="updateSliderDisplay('calc-hours', 'calc-hours-display', ' hrs'); calculateROI()">
+              </div>
+              <div class="flex justify-between text-xs text-neutral-500 mt-1">
+                <span>1 hr</span>
+                <span>60 hrs</span>
+              </div>
+            </div>
+
+            <!-- Average Hourly Cost -->
+            <div>
+              <label for="calc-cost" class="block text-[11px] font-semibold uppercase tracking-form-label text-neutral-900 mb-3">Average Hourly Cost ($)</label>
+              <div class="relative w-full max-w-[240px]">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500 font-bold">$</span>
+                <input type="number" id="calc-cost" value="35" min="10" max="300" class="form-input pl-8 font-bold" oninput="calculateROI()">
+              </div>
+            </div>
+
+            <!-- Number of Workflows -->
+            <div>
+              <label for="calc-workflows" class="block text-[11px] font-semibold uppercase tracking-form-label text-neutral-900 mb-3">Number of Workflows to Automate</label>
+              <div class="flex items-center h-12 w-full max-w-[240px] border border-neutral-300 bg-background-200 focus-within:border-neutral-900 focus-within:ring-1 focus-within:ring-neutral-900 transition-colors">
+                <button type="button" class="w-12 h-full flex items-center justify-center text-neutral-600 hover:text-neutral-900 hover:bg-neutral-300 transition-colors focus-visible:outline-none" onclick="updateNumberInput('calc-workflows', -1, 1, 20)">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
+                </button>
+                <input type="number" id="calc-workflows" value="3" min="1" max="20" class="flex-1 h-full bg-transparent text-center font-bold text-neutral-900 outline-none appearance-none m-0 p-0" oninput="calculateROI()">
+                <button type="button" class="w-12 h-full flex items-center justify-center text-neutral-600 hover:text-neutral-900 hover:bg-neutral-300 transition-colors focus-visible:outline-none" onclick="updateNumberInput('calc-workflows', 1, 1, 20)">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Implementation Complexity -->
+            <div>
+              <label class="block text-[11px] font-semibold uppercase tracking-form-label text-neutral-900 mb-3">Implementation Complexity</label>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" role="radiogroup" aria-label="Implementation Complexity">
+                
+                <!-- Simple -->
+                <button type="button" role="radio" aria-checked="false" class="complexity-radio relative border border-neutral-300 bg-background-50 p-4 text-left hover:border-neutral-500 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500" data-value="1" onclick="selectComplexity(this)">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="font-bold text-neutral-900 uppercase tracking-widest text-xs">Simple</span>
+                    <div class="radio-indicator w-4 h-4 rounded-full border border-neutral-300 flex items-center justify-center">
+                      <div class="inner-dot w-2 h-2 rounded-full bg-neutral-900 opacity-0 scale-50 transition-all"></div>
+                    </div>
+                  </div>
+                  <p class="text-xs text-neutral-500">Standard tools, clear rules, no legacy systems.</p>
+                </button>
+
+                <!-- Moderate -->
+                <button type="button" role="radio" aria-checked="true" class="complexity-radio relative border-2 border-neutral-900 bg-background-50 p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500" data-value="1.5" onclick="selectComplexity(this)">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="font-bold text-neutral-900 uppercase tracking-widest text-xs">Moderate</span>
+                    <div class="radio-indicator w-4 h-4 rounded-full border-2 border-neutral-900 flex items-center justify-center">
+                      <div class="inner-dot w-2 h-2 rounded-full bg-neutral-900 opacity-100 scale-100 transition-all"></div>
+                    </div>
+                  </div>
+                  <p class="text-xs text-neutral-500">Custom logic, API connections, some unstructured data.</p>
+                </button>
+
+                <!-- Complex -->
+                <button type="button" role="radio" aria-checked="false" class="complexity-radio relative border border-neutral-300 bg-background-50 p-4 text-left hover:border-neutral-500 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500" data-value="2.5" onclick="selectComplexity(this)">
+                  <div class="flex items-center justify-between mb-2">
+                    <span class="font-bold text-neutral-900 uppercase tracking-widest text-xs">Complex</span>
+                    <div class="radio-indicator w-4 h-4 rounded-full border border-neutral-300 flex items-center justify-center">
+                      <div class="inner-dot w-2 h-2 rounded-full bg-neutral-900 opacity-0 scale-50 transition-all"></div>
+                    </div>
+                  </div>
+                  <p class="text-xs text-neutral-500">Legacy ERPs, high security, complex decision trees.</p>
+                </button>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right: Results Panel -->
+          <div class="lg:col-span-5 reveal delay-200">
+            <div class="sticky top-28 bg-background-100 p-8 md:p-10 border border-neutral-200 shadow-sm">
+              
+              <div class="flex justify-between items-start mb-8">
+                <h3 class="font-heading font-bold text-xl text-neutral-900 uppercase tracking-tightest">Your Estimated<br>Annual Savings</h3>
+                <div id="res-package" class="bg-primary-500/10 text-primary-500 px-3 py-1 text-[10px] font-bold uppercase tracking-widest border border-primary-500/20">
+                  Growth Package
+                </div>
+              </div>
+
+              <!-- Primary Stat -->
+              <div class="mb-10">
+                <div class="font-heading font-bold text-6xl md:text-7xl text-primary-500 tracking-tightest leading-none flex items-baseline">
+                  <span class="text-4xl mr-1">$</span><span id="res-annual" class="count-up-calc">0</span>
+                </div>
+              </div>
+
+              <!-- Secondary Stats Grid -->
+              <div class="grid grid-cols-2 gap-6 mb-10">
+                <div>
+                  <p class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-1">Monthly Savings</p>
+                  <div class="font-heading font-bold text-2xl text-neutral-900 tracking-tightest flex items-baseline">
+                    <span class="text-lg mr-1">$</span><span id="res-monthly" class="count-up-calc">0</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-1">Hours Recovered / Yr</p>
+                  <div class="font-heading font-bold text-2xl text-neutral-900 tracking-tightest">
+                    <span id="res-hours" class="count-up-calc">0</span>
+                  </div>
+                </div>
+                <div class="col-span-2 pt-4 border-t border-neutral-300">
+                  <div class="flex justify-between items-end">
+                    <div>
+                      <p class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-1">Estimated ROI</p>
+                      <div class="font-heading font-bold text-3xl text-neutral-900 tracking-tightest flex items-baseline">
+                        <span id="res-roi" class="count-up-calc">0</span><span class="text-xl ml-1">%</span>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-sm text-neutral-600">Estimated payback in <strong id="res-payback" class="text-neutral-900">0</strong> months</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CTA -->
+              <div class="pt-8 border-t border-neutral-300">
+                <p class="text-sm text-neutral-600 mb-4">These are estimates based on industry averages. Want the real numbers?</p>
+                <button onclick="navigateTo('contact')" class="w-full h-12 bg-primary-500 text-background-50 font-semibold uppercase tracking-form-label text-sm hover:bg-primary-600 active:translate-y-[1px] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-background-100 flex items-center justify-center">
+                  Book Your Free Audit
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- CTA Banner -->
+      <section class="bg-neutral-900 py-24 md:py-32 px-4 md:px-8 text-center border-t border-neutral-800">
+        <div class="max-w-4xl mx-auto reveal">
+          <h2 class="font-heading font-bold text-4xl md:text-5xl text-background-50 tracking-tightest uppercase mb-8 leading-tight">
+            Ready to Make It Real?
+          </h2>
+          <button onclick="navigateTo('contact')" class="inline-flex items-center justify-center bg-primary-500 text-background-50 px-10 py-5 text-lg font-bold uppercase tracking-wider hover:bg-primary-600 active:scale-[0.98] transition-all rounded-small focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900">
+            Start Your Project
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- Shared Footer -->
+  <footer class="bg-neutral-900 pt-20 pb-10 px-4 md:px-8 lg:px-16 border-t border-neutral-800">
+    <div class="max-w-[1280px] mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-16">
+        
+        <!-- Brand & Newsletter -->
+        <div class="lg:col-span-2">
+          <button onclick="navigateTo('contact')" class="font-heading font-bold text-3xl tracking-tightest text-background-50 mb-6 block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 w-max">
+            AI<span class="text-primary-500">.</span>IT
+          </button>
+          <p class="text-neutral-400 mb-6 max-w-sm">Get our weekly teardown of real business workflows automated with AI. No fluff, just systems.</p>
+          <form class="flex gap-2 max-w-sm" onsubmit="event.preventDefault();">
+            <label for="email-signup" class="sr-only">Email address</label>
+            <input type="email" id="email-signup" placeholder="Email address" required class="bg-neutral-800 border border-neutral-700 text-background-50 px-4 py-3 w-full focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 rounded-small placeholder:text-neutral-500">
+            <button type="submit" class="bg-background-50 text-neutral-900 px-6 py-3 font-bold uppercase tracking-wider text-sm hover:bg-primary-500 hover:text-background-50 transition-colors rounded-small focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900">
+              Join
+            </button>
+          </form>
+        </div>
+
+        <!-- Links: Services -->
+        <div>
+          <h4 class="text-background-50 font-bold uppercase tracking-widest text-sm mb-6">Services</h4>
+          <ul class="space-y-4">
+            <li><a href="#" class="text-neutral-400 hover:text-primary-500 transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 rounded-small px-1 -ml-1">AI Readiness Audit</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-primary-500 transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 rounded-small px-1 -ml-1">Workflow Automation</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-primary-500 transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 rounded-small px-1 -ml-1">Custom Implementation</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-primary-500 transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 rounded-small px-1 -ml-1">Managed Support</a></li>
+          </ul>
+        </div>
+
+        <!-- Links: Industries -->
+        <div>
+          <h4 class="text-background-50 font-bold uppercase tracking-widest text-sm mb-6">Industries</h4>
+          <ul class="space-y-4">
+            <li><a href="#" class="text-neutral-400 hover:text-primary-500 transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 rounded-small px-1 -ml-1">Professional Services</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-primary-500 transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 rounded-small px-1 -ml-1">Home Services</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-primary-500 transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 rounded-small px-1 -ml-1">Logistics & Supply</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-primary-500 transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 rounded-small px-1 -ml-1">E-Commerce</a></li>
+          </ul>
+        </div>
+
+        <!-- Links: Company -->
+        <div>
+          <h4 class="text-background-50 font-bold uppercase tracking-widest text-sm mb-6">Company</h4>
+          <ul class="space-y-4">
+            <li><a href="#" class="text-neutral-400 hover:text-primary-500 transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 rounded-small px-1 -ml-1">About Us</a></li>
+            <li><a href="#" class="text-neutral-400 hover:text-primary-500 transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 rounded-small px-1 -ml-1">Case Studies</a></li>
+            <li><button onclick="navigateTo('calculator')" class="text-neutral-400 hover:text-primary-500 transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 rounded-small px-1 -ml-1">ROI Calculator</button></li>
+            <li><button onclick="navigateTo('contact')" class="text-neutral-400 hover:text-primary-500 transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 rounded-small px-1 -ml-1">Contact</button></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="pt-8 border-t border-neutral-800 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-neutral-500 text-sm">© 2026 AI.IT Consultancy. All rights reserved.</p>
+        <div class="flex gap-6">
+          <a href="#" class="text-neutral-500 hover:text-background-50 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 rounded-small px-1">Privacy Policy</a>
+          <a href="#" class="text-neutral-500 hover:text-background-50 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 rounded-small px-1">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // --- Router & Global ---
+    function navigateTo(viewId) {
+      document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
+      document.getElementById('view-' + viewId).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Re-trigger animations
+      setTimeout(() => {
+        document.querySelectorAll('#view-' + viewId + ' .reveal').forEach(el => {
+          el.classList.remove('active');
+          observer.observe(el);
+        });
+      }, 50);
+
+      // Initialize calculator if navigating to it
+      if(viewId === 'calculator') {
+        calculateROI(true); // true = skip animation on first load for instant display
+      }
+    }
+
+    // Header scroll effect
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) {
+        header.classList.add('shadow-sm');
+      } else {
+        header.classList.remove('shadow-sm');
+      }
+    });
+
+    // Intersection Observer for scroll animations
+    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // --- Form Validation & Submission ---
+    const form = document.getElementById('contact-form');
+    const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+    
+    // Blur validation
+    inputs.forEach(input => {
+      input.addEventListener('blur', () => validateField(input));
+      input.addEventListener('input', () => {
+        if(input.classList.contains('error')) validateField(input);
+      });
+    });
+
+    function validateField(input) {
+      const errorEl = document.getElementById(`${input.id}-error`);
+      if (!input.checkValidity()) {
+        input.classList.add('error');
+        if(errorEl) errorEl.classList.remove('hidden');
+        return false;
+      } else {
+        input.classList.remove('error');
+        if(errorEl) errorEl.classList.add('hidden');
+        return true;
+      }
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let isValid = true;
+      
+      inputs.forEach(input => {
+        if(!validateField(input)) isValid = false;
+      });
+
+      if (isValid) {
+        const btn = document.getElementById('submit-btn');
+        const text = document.getElementById('submit-text');
+        const spinner = document.getElementById('submit-spinner');
+        const successMsg = document.getElementById('success-message');
+        
+        // Loading state
+        btn.disabled = true;
+        text.classList.add('hidden');
+        spinner.classList.remove('hidden');
+        
+        // Simulate API call
+        setTimeout(() => {
+          btn.disabled = false;
+          text.classList.remove('hidden');
+          spinner.classList.add('hidden');
+          
+          form.reset();
+          successMsg.classList.remove('hidden');
+          
+          // Hide success message after 5 seconds
+          setTimeout(() => {
+            successMsg.classList.add('hidden');
+          }, 5000);
+        }, 1500);
+      }
+    });
+
+    // --- ROI Calculator Logic ---
+    let calcDebounceTimer;
+    let currentComplexity = 1.5; // Default Moderate
+
+    // Number Input Stepper
+    function updateNumberInput(id, change, min, max) {
+      const input = document.getElementById(id);
+      let val = parseInt(input.value) || 0;
+      val += change;
+      if (val < min) val = min;
+      if (val > max) val = max;
+      input.value = val;
+      calculateROI();
+    }
+
+    // Slider Display
+    function updateSliderDisplay(inputId, displayId, suffix) {
+      const val = document.getElementById(inputId).value;
+      document.getElementById(displayId).textContent = val + suffix;
+      document.getElementById(inputId).setAttribute('aria-valuenow', val);
+    }
+
+    // Radio Cards
+    function selectComplexity(btn) {
+      document.querySelectorAll('.complexity-radio').forEach(el => {
+        el.setAttribute('aria-checked', 'false');
+        el.classList.remove('border-2', 'border-neutral-900');
+        el.classList.add('border', 'border-neutral-300');
+        
+        const indicator = el.querySelector('.radio-indicator');
+        indicator.classList.remove('border-2', 'border-neutral-900');
+        indicator.classList.add('border', 'border-neutral-300');
+        
+        const dot = el.querySelector('.inner-dot');
+        dot.classList.remove('opacity-100', 'scale-100');
+        dot.classList.add('opacity-0', 'scale-50');
+      });
+
+      btn.setAttribute('aria-checked', 'true');
+      btn.classList.remove('border', 'border-neutral-300');
+      btn.classList.add('border-2', 'border-neutral-900');
+      
+      const indicator = btn.querySelector('.radio-indicator');
+      indicator.classList.remove('border', 'border-neutral-300');
+      indicator.classList.add('border-2', 'border-neutral-900');
+      
+      const dot = btn.querySelector('.inner-dot');
+      dot.classList.remove('opacity-0', 'scale-50');
+      dot.classList.add('opacity-100', 'scale-100');
+
+      currentComplexity = parseFloat(btn.getAttribute('data-value'));
+      calculateROI();
+    }
+
+    // Core Calculation
+    function calculateROI(instant = false) {
+      clearTimeout(calcDebounceTimer);
+      
+      calcDebounceTimer = setTimeout(() => {
+        const employees = parseInt(document.getElementById('calc-employees').value) || 0;
+        const hoursPerWeek = parseInt(document.getElementById('calc-hours').value) || 0;
+        const hourlyCost = parseInt(document.getElementById('calc-cost').value) || 0;
+        const workflows = parseInt(document.getElementById('calc-workflows').value) || 0;
+
+        // Assumptions
+        const aiEfficiency = 0.8; // AI saves 80% of the manual time
+        const baseCostPerWorkflow = 15000; // Base implementation cost
+        const weeksPerYear = 52;
+
+        // Calculations
+        const totalManualHoursYear = employees * hoursPerWeek * weeksPerYear;
+        const hoursRecovered = Math.round(totalManualHoursYear * aiEfficiency);
+        
+        const annualSavings = hoursRecovered * hourlyCost;
+        const monthlySavings = Math.round(annualSavings / 12);
+        
+        const implementationCost = workflows * baseCostPerWorkflow * currentComplexity;
+        
+        const roi = Math.round(((annualSavings - implementationCost) / implementationCost) * 100);
+        const paybackMonths = (implementationCost / monthlySavings).toFixed(1);
+
+        // Package Logic
+        let packageType = "Starter Package";
+        if (workflows > 5 || currentComplexity > 1.5) packageType = "Growth Package";
+        if (workflows > 12 || currentComplexity > 2) packageType = "Enterprise Package";
+
+        // Update UI
+        document.getElementById('res-package').textContent = packageType;
+        document.getElementById('res-payback').textContent = paybackMonths > 0 ? paybackMonths : "< 1";
+
+        if (instant) {
+          document.getElementById('res-annual').textContent = annualSavings.toLocaleString();
+          document.getElementById('res-monthly').textContent = monthlySavings.toLocaleString();
+          document.getElementById('res-hours').textContent = hoursRecovered.toLocaleString();
+          document.getElementById('res-roi').textContent = roi > 0 ? roi.toLocaleString() : "0";
+        } else {
+          animateValueCalc('res-annual', annualSavings);
+          animateValueCalc('res-monthly', monthlySavings);
+          animateValueCalc('res-hours', hoursRecovered);
+          animateValueCalc('res-roi', roi > 0 ? roi : 0);
+        }
+
+      }, 150); // Debounce
+    }
+
+    // Number Animation for Calculator
+    const currentValues = {
+      'res-annual': 0,
+      'res-monthly': 0,
+      'res-hours': 0,
+      'res-roi': 0
+    };
+
+    function animateValueCalc(id, end) {
+      const obj = document.getElementById(id);
+      const start = currentValues[id];
+      const duration = 400;
+      let startTimestamp = null;
+      
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        // Ease out quad
+        const easeProgress = progress * (2 - progress);
+        const current = Math.floor(easeProgress * (end - start) + start);
+        
+        obj.textContent = current.toLocaleString();
+        
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        } else {
+          currentValues[id] = end;
+        }
+      };
+      window.requestAnimationFrame(step);
+    }
+
+    // Initialize calculator on load (hidden, but ready)
+    calculateROI(true);
+
+  </script>
+</body>
+</html>
